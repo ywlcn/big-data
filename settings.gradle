@@ -1,0 +1,9 @@
+rootProject.name = 'BigData'
+
+include '00-Utils'
+include '01-ApacheIgnite'
+include '02-ApacheIgniteAlone'
+include 'XX-XXXXX'
+include '99-Test'
+
+

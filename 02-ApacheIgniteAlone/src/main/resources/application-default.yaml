@@ -1,0 +1,62 @@
+
+debug: true
+
+server:
+  port: 8081
+spring:
+  application:
+    name: SpringSecurityHello
+
+  autoconfigure:
+    exclude:
+
+  datasource:
+    #    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    #    url: jdbc:hsqldb:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=1;DB_CLOSE_ON_EXIT=FALSE;MODE=DB2
+    username: sa
+    password:
+    initialize: true
+
+#  datasource:
+#    url: jdbc:ignite:thin://127.0.0.1/
+#    driver-class-name: org.apache.ignite.IgniteJdbcThinDriver
+#    schema: classpath:db/schema.sql
+#    data: classpath:db/data.sql
+#    max-idle: 10
+#    max-wait: 10000
+#    min-idle: 5
+#    initial-size: 5
+
+
+ignite:
+  isDebug: true
+  config: classpath:ignite-config-nocache.xml
+  
+
+mybatis:
+  type-aliases-package: org.rgs.ignite.data.domain
+  mapper-locations: classpath:mappers/*.xml
+
+
+###kafka
+kafka:
+  bootstrap-servers: localhost:9092
+  consumer:
+    group-id: gg
+    auto-offset-reset: earliest
+    enable-auto-commit: false
+    concurrency: 4
+    max-poll-records: 100
+  topics: test1,test2
+  partition:
+    assignment:
+      strategy: org.apache.kafka.clients.consumer.RoundRobinAssignor
+
+
+
+logging:
+  level:
+    #web: DEBUG
+    org.springframework.security.web: DEBUG
