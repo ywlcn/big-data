@@ -16,14 +16,14 @@ buildscript {
 
 subprojects {
 
-    configurations {
-        configureEach {
-            exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
-            //exclude group: "com.h2database", module: "h2"
-            exclude group: "commons-logging", module: "commons-logging"
-
-        }
-    }
+//    configurations {
+//        configureEach {
+//            exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+//            //exclude group: "com.h2database", module: "h2"
+//            exclude group: "commons-logging", module: "commons-logging"
+//
+//        }
+//    }
     apply plugin: "java-library"
 	apply plugin: "io.spring.dependency-management"
 	apply plugin: "org.springframework.boot"
@@ -37,6 +37,12 @@ subprojects {
 
     repositories {
         mavenCentral()
+    }
+
+    bootRun {
+        if (project.hasProperty("appJvmArgs")) {
+            jvmArgs project.appJvmArgs.split(" ")
+        }
     }
 
     dependencies {
@@ -58,59 +64,33 @@ subprojects {
 project(":00-Utils") {
 
     dependencies {
+        api "org.apache.ignite:ignite-core:${igniteVersion}"
+        api "org.apache.ignite:ignite-spring:${igniteVersion}"
+        api "org.apache.ignite:ignite-indexing:${igniteVersion}"
 
     }
 }
 
 project(":01-ApacheIgnite") {
 
-    bootRun {
-        if (project.hasProperty('appJvmArgs')) {
-            jvmArgs project.appJvmArgs.split(' ')
-        }
-    }
 
 
     dependencies {
         api project(":00-Utils")
 
-        implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.1'
-
-        implementation 'org.apache.ignite:ignite-spring:2.16.0'
-        implementation "com.h2database:h2:1.4.197"
-
-        implementation 'org.mybatis.caches:mybatis-ignite:1.1.1'
-
-    }
-}
-
-
-project(":02-ApacheIgniteAlone") {
-
-    dependencies {
-
-        api project(":00-Utils")
-
-        implementation "com.h2database:h2:1.4.197"
-
-
-        api "org.apache.ignite:ignite-spring-boot-autoconfigure-ext:1.0.0" // SpringBoot 2.2.2
         api "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2"
+        api "org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.1"
+        api "org.apache.ignite:ignite-spring-boot-thin-client-autoconfigure-ext:1.0.0"
 
-        api "org.apache.ignite:ignite-log4j2:${igniteVersion}"
-        api "org.apache.ignite:ignite-core:${igniteVersion}"
-        api "org.apache.ignite:ignite-spring:${igniteVersion}"
-        api "org.springframework.kafka:spring-kafka"
-        api "org.apache.ignite:ignite-spring:${igniteVersion}"
-        api "com.lmax:disruptor:3.3.6"
 
-        api "org.apache.tomcat:tomcat-jdbc"
-        api "org.springframework.kafka:spring-kafka"
-        //api "org.springframework.boot:spring-boot-starter-log4j2"
+        api "com.h2database:h2:1.4.197"
+        //implementation "com.mysql:mysql-connector-j"
 
+        //implementation "org.mybatis.caches:mybatis-ignite:1.1.1"
 
     }
 }
+
 
 project(":02-ApacheIgniteAlone") {
 
@@ -120,26 +100,63 @@ project(":02-ApacheIgniteAlone") {
 
         //implementation "com.h2database:h2:1.4.197"
 
-        api "org.apache.ignite:ignite-spring-boot-autoconfigure-ext:1.0.0" // SpringBoot 2.2.2
-        api "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2"
+        api "org.mybatis.caches:mybatis-ignite:1.0.5"
+        
+        //api "org.apache.ignite:ignite-spring-boot-autoconfigure-ext:1.0.0" // SpringBoot 2.2.2
 
-        api "org.apache.ignite:ignite-log4j2:${igniteVersion}"
-        api "org.apache.ignite:ignite-core:${igniteVersion}"
-        api "org.apache.ignite:ignite-spring:${igniteVersion}"
-        api "org.springframework.kafka:spring-kafka"
-        api "org.apache.ignite:ignite-spring:${igniteVersion}"
-        api "com.lmax:disruptor:3.3.6"
+        //api "org.springframework.kafka:spring-kafka"
 
-        api "org.apache.tomcat:tomcat-jdbc"
-        api "org.springframework.kafka:spring-kafka"
+        //api "com.lmax:disruptor:3.3.6"
+
+        //api "org.apache.tomcat:tomcat-jdbc"
+        //api "org.springframework.kafka:spring-kafka"
         //api "org.springframework.boot:spring-boot-starter-log4j2"
-
-        //implementation 'org.mybatis.caches:mybatis-ignite:1.1.1'
 
 
     }
 }
 
+project(":02-ApacheIgniteAlone") {
+
+    dependencies {
+
+        api project(":00-Utils")
+
+//        //implementation "com.h2database:h2:1.4.197"
+//
+//        api "org.apache.ignite:ignite-spring-boot-autoconfigure-ext:1.0.0" // SpringBoot 2.2.2
+//        api "org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2"
+//
+//        api "org.apache.ignite:ignite-log4j2:${igniteVersion}"
+//        api "org.apache.ignite:ignite-core:${igniteVersion}"
+//        api "org.apache.ignite:ignite-spring:${igniteVersion}"
+//        api "org.springframework.kafka:spring-kafka"
+//        api "org.apache.ignite:ignite-spring:${igniteVersion}"
+//        api "com.lmax:disruptor:3.3.6"
+//
+//        api "org.apache.tomcat:tomcat-jdbc"
+//        api "org.springframework.kafka:spring-kafka"
+//        //api "org.springframework.boot:spring-boot-starter-log4j2"
+//
+//        //implementation "org.mybatis.caches:mybatis-ignite:1.1.1"
+
+
+    }
+}
+
+
+
+project(":03-SpringDataIgnite") {
+    dependencies {
+        api project(":00-Utils")
+        api "org.apache.ignite:ignite-spring-boot-thin-client-autoconfigure-ext:${igniteAutoconfigureVersion}"
+        api "org.apache.ignite:ignite-spring-data-ext:${igniteSpringData}"
+        api "org.springframework.boot:spring-boot-starter-web"
+        api "org.springframework:spring-tx"
+        api "org.springframework:spring-context"
+        api "org.springframework.data:spring-data-commons"
+    }
+}
 
 
 project(":99-Test") {

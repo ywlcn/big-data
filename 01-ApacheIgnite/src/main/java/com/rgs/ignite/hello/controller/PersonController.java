@@ -1,11 +1,13 @@
 package com.rgs.ignite.hello.controller;
 
+import com.rgs.ignite.hello.mapper.PersonMapper;
 import com.rgs.ignite.hello.model.Person;
 import com.rgs.ignite.hello.service.PersonService;
 import com.rgs.ignite.hello.tasks.AddNumbersTask;
 import com.rgs.ignite.hello.tasks.AddNumbersTaskArg;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
+import org.apache.ignite.client.IgniteClient;
 import org.apache.ignite.compute.ComputeTaskFuture;
 import org.apache.ignite.lang.IgniteRunnable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,10 @@ public class PersonController {
     private PersonService personService;
 
     @Autowired
-    private Ignite ignite;
+    PersonMapper personMapper;
+
+    @Autowired
+    private IgniteClient ignite;
 
     @GetMapping("/{id}")
     public Person getPerson(@PathVariable Long id) {
@@ -32,14 +37,24 @@ public class PersonController {
 
     @GetMapping
     public List<Person> getAllPersons() {
-            for (String cacheName : ignite.cacheNames())
-                    System.out.println("        " + cacheName);
+        for (String cacheName : ignite.cacheNames())
+            System.out.println("        " + cacheName);
+
+        try {
+
+            personMapper.createTable();
+
+            //List<Person> list = personMapper.getAllPersons();
+            List<Person> list = new ArrayList<>();
+            return list;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
 
-
-        AddNumbersTaskArg arg = new AddNumbersTaskArg(111, 222);
-        ComputeTaskFuture<Integer> future = ignite.compute().executeAsync(AddNumbersTask.class, arg);
-        System.out.println(future.get());
+//        AddNumbersTaskArg arg = new AddNumbersTaskArg(111, 222);
+//        ComputeTaskFuture<Integer> future = ignite.compute().executeAsync(AddNumbersTask.class, arg);
+//        System.out.println(future.get());
 
 //
 //        Person p = new Person();

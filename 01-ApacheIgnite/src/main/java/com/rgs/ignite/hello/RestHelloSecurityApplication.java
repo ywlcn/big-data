@@ -1,26 +1,29 @@
 package com.rgs.ignite.hello;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ignite.client.ClientCache;
-import org.apache.ignite.client.ClientCacheConfiguration;
-import org.apache.ignite.client.IgniteClient;
+import org.apache.ignite.springframework.boot.autoconfigure.IgniteClientAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @MapperScan(basePackages = {"com.rgs.ignite.hello"},
         annotationClass = Mapper.class)
+@Import(IgniteClientAutoConfiguration.class)
 public class RestHelloSecurityApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RestHelloSecurityApplication.class, args);
     }
 
-//
+
+    // https://www.gridgain.com/docs/tutorials/spring/spring-ignite-tutorial#create-spring-data-repositories
+
+
+//    https://github.com/GridGain-Demos/ignite-mysql-acceleration-demo
+    // https://dzone.com/articles/apache-ignite-rdbms-integration
+    // https://www.youtube.com/watch?v=Ymi-aY7Z0vA
 //    @Bean
 //    CommandLineRunner runner2() {
 //        return new CommandLineRunner() {
@@ -75,7 +78,7 @@ public class RestHelloSecurityApplication {
 ////            private Ignite ignite;
 //
 //            @Autowired
-//            private IgniteClient igniteClient;
+//            private IgniteClient com.rgs.ignite.hello.igniteClient;
 //
 //            /** Method will be executed on application startup. */
 //            @Override
@@ -100,7 +103,7 @@ public class RestHelloSecurityApplication {
 ////                for (String cacheName : ignite.cacheNames())
 ////                    System.out.println("        " + cacheName);
 //
-//                for (String cacheName : igniteClient.cacheNames())
+//                for (String cacheName : com.rgs.ignite.hello.igniteClient.cacheNames())
 //                    System.out.println("        " + cacheName);
 //                cacheAPI();
 //                sqlAPI();
@@ -109,7 +112,7 @@ public class RestHelloSecurityApplication {
 //            /** Example of the SQL API usage. */
 //            private void sqlAPI() {
 ////                //This cache configured in `application.yml`.
-////                IgniteCache<Long, Object> accounts = igniteClient.cache("accounts");
+////                IgniteCache<Long, Object> accounts = com.rgs.ignite.hello.igniteClient.cache("accounts");
 ////
 ////                //SQL table configured via QueryEntity in `application.yml`
 ////                String qry = "INSERT INTO ACCOUNTS(ID, AMOUNT, UPDATEDATE) VALUES(?, ?, ?)";

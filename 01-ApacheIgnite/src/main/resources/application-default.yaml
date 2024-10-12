@@ -1,5 +1,5 @@
-debug:
-  true
+#debug:
+#  true
 server:
   port: 8081
 spring:
@@ -8,11 +8,11 @@ spring:
   datasource:
     # 由于我们使用 Ignite 作为数据源，这里不需要传统的 JDBC 数据源配置
     # 可以留空或根据需要配置其他数据源
-    url: jdbc:ignite:thin://127.0.0.1/
+    url: jdbc:ignite:thin://127.0.0.1:10800/
     driver-class-name: org.apache.ignite.IgniteJdbcThinDriver
     init: true
-    schema: classpath:db/schema.sql
-    data: classpath:db/data.sql
+#    schema: classpath:db/schema.sql
+#    data: classpath:db/data.sql
 
 
 mybatis:

@@ -1,0 +1,23 @@
+
+#debug: true
+
+server:
+  port: 9003
+
+spring:
+  application:
+    name: IgniteSpringDataDemo
+
+  datasource:
+    url: jdbc:ignite:thin://127.0.0.1:10800/
+    driver-class-name: org.apache.ignite.IgniteJdbcThinDriver
+
+ignite-client:
+  addresses: 127.0.0.1:10800 # this is mandatory property!
+  timeout: 10000
+  tcpNoDelay: false
+
+logging:
+  level:
+    #web: DEBUG
+    org.springframework.security.web: DEBUG
