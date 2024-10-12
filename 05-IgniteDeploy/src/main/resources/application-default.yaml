@@ -1,0 +1,13 @@
+
+server:
+  port: 9005
+spring:
+  application:
+    name: IgniteDeploy
+
+#ignite-client:
+#  addresses: 127.0.0.1:10800 # this is mandatory property!
+#  timeout: 10000
+#  tcpNoDelay: false
+##  peerClassLoadingEnabled: true
+

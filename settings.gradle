@@ -4,6 +4,8 @@ include '00-Utils'
 include '01-ApacheIgnite'
 include '02-ApacheIgniteAlone'
 include '03-SpringDataIgnite'
+include '04-IgniteMybatis'
+include '05-IgniteDeploy'
 include 'XX-XXXXX'
 include '99-Test'
 

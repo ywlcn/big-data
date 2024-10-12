@@ -1,0 +1,34 @@
+
+debug: true
+
+server:
+  port: 9004
+spring:
+  application:
+    name: IgniteMybatis
+
+  datasource:
+    url: jdbc:ignite:thin://127.0.0.1:10800/
+    driver-class-name: org.apache.ignite.IgniteJdbcThinDriver
+    init: true
+    schema: classpath:db/schema.sql
+    data: classpath:db/data.sql
+
+
+ignite-client:
+  addresses: 127.0.0.1:10800 # this is mandatory property!
+  timeout: 10000
+  tcpNoDelay: false
+
+
+
+mybatis:
+  type-aliases-package: org.rgs.ignite.mybatis.mapper
+  mapper-locations: classpath:mappers/*.xml
+
+
+
+logging:
+  level:
+    #web: DEBUG
+    org.springframework.security.web: DEBUG

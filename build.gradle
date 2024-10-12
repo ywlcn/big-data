@@ -55,8 +55,8 @@ subprojects {
 //        api "org.hibernate.orm:hibernate-core"
 //        api "com.zaxxer:HikariCP"
 
-        compileOnly "org.projectlombok:lombok:${lombok}"
-        annotationProcessor "org.projectlombok:lombok:${lombok}"
+        compileOnly "org.projectlombok:lombok"
+        annotationProcessor "org.projectlombok:lombok"
 
 	}
 }
@@ -100,8 +100,7 @@ project(":02-ApacheIgniteAlone") {
 
         //implementation "com.h2database:h2:1.4.197"
 
-        api "org.mybatis.caches:mybatis-ignite:1.0.5"
-        
+
         //api "org.apache.ignite:ignite-spring-boot-autoconfigure-ext:1.0.0" // SpringBoot 2.2.2
 
         //api "org.springframework.kafka:spring-kafka"
@@ -149,12 +148,42 @@ project(":02-ApacheIgniteAlone") {
 project(":03-SpringDataIgnite") {
     dependencies {
         api project(":00-Utils")
-        api "org.apache.ignite:ignite-spring-boot-thin-client-autoconfigure-ext:${igniteAutoconfigureVersion}"
+        api "org.apache.ignite:ignite-spring-boot-thin-client-autoconfigure-ext:${igniteThinClientAutoconfigureVersion}"
         api "org.apache.ignite:ignite-spring-data-ext:${igniteSpringData}"
-        api "org.springframework.boot:spring-boot-starter-web"
+
         api "org.springframework:spring-tx"
         api "org.springframework:spring-context"
         api "org.springframework.data:spring-data-commons"
+    }
+}
+
+
+
+project(":04-IgniteMybatis") {
+    dependencies {
+        api project(":00-Utils")
+
+        api "org.apache.ignite:ignite-spring-boot-thin-client-autoconfigure-ext:${igniteThinClientAutoconfigureVersion}"
+
+        api "org.springframework:spring-tx"
+        api "org.springframework:spring-context"
+
+        api "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisSpringBootStarter}"
+        api 'org.mybatis.caches:mybatis-ignite:1.1.1'
+        api "com.h2database:h2:1.4.197"
+
+    }
+}
+
+project(":05-IgniteDeploy") {
+
+    dependencies {
+        api project(":00-Utils")
+
+        api "com.h2database:h2:1.4.197"
+
+
+
     }
 }
 

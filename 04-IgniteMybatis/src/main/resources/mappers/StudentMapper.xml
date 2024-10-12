@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.rgs.ignite.deploy.mapper.StudentMapper">
+
+    <cache type="org.mybatis.caches.ignite.IgniteCacheAdapter" />
+
+    <resultMap type="org.rgs.ignite.deploy.domain.Student" id="StudentResult">
+        <result property="studId" column="studId"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="dob" column="dob"/>
+    </resultMap>
+
+    <select id="findAllStudents" resultMap="StudentResult">
+        select * from  student
+    </select>
+
+    <select id="findStudentsById" parameterType="java.lang.Integer" resultMap="StudentResult">
+        SELECT * FROM student WHERE studId = #{studentId}
+    </select>
+
+    <select id="findGradeByName" parameterType="java.lang.String" resultType="java.lang.Double">
+        SELECT g.grade FROM student s,grade g WHERE s.studId=g.studId and s.name= #{name}
+    </select>
+</mapper>
