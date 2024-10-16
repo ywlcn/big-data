@@ -1,4 +1,4 @@
-package com.rgs.utils.controller;
+package org.rgs.utils.controller;
 
 
 import jakarta.servlet.http.HttpServletRequest;

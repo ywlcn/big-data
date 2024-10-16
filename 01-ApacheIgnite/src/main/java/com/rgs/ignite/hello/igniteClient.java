@@ -2,7 +2,6 @@ package com.rgs.ignite.hello;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
 import org.apache.ignite.client.ClientCache;
@@ -10,7 +9,7 @@ import org.apache.ignite.client.IgniteClient;
 import org.apache.ignite.configuration.ClientConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.logger.java.JavaLogger;
-import org.rgs.utils.dto.Employee;
+import org.rgs.domain.Employee;
 
 import javax.cache.Cache;
 import java.util.Iterator;

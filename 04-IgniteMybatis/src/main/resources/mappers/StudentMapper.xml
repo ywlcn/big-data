@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.rgs.ignite.deploy.mapper.StudentMapper">
+<mapper namespace="org.rgs.mapper.StudentMapper">
 
-    <cache type="org.mybatis.caches.ignite.IgniteCacheAdapter" />
+<!--    <cache type="org.mybatis.caches.ignite.IgniteCacheAdapter" />-->
 
-    <resultMap type="org.rgs.ignite.deploy.domain.Student" id="StudentResult">
+    <resultMap type="org.rgs.domain.Student" id="StudentResult">
         <result property="studId" column="studId"/>
         <result property="name" column="name"/>
         <result property="email" column="email"/>
@@ -15,14 +15,14 @@
     </resultMap>
 
     <select id="findAllStudents" resultMap="StudentResult">
-        select * from  student
+        select * from "igniteDbCache".student
     </select>
 
     <select id="findStudentsById" parameterType="java.lang.Integer" resultMap="StudentResult">
-        SELECT * FROM student WHERE studId = #{studentId}
+        SELECT * FROM "igniteDbCache".student WHERE studId = #{studentId}
     </select>
 
     <select id="findGradeByName" parameterType="java.lang.String" resultType="java.lang.Double">
-        SELECT g.grade FROM student s,grade g WHERE s.studId=g.studId and s.name= #{name}
+        SELECT g.grade FROM "igniteDbCache".student s, "igniteDbCache".grade g WHERE s.studId=g.studId and s.name= #{name}
     </select>
 </mapper>

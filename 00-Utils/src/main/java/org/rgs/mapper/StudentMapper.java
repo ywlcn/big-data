@@ -1,7 +1,6 @@
-package org.rgs.ignite.deploy.mapper;
+package org.rgs.mapper;
 
-
-import org.rgs.ignite.deploy.domain.Student;
+import org.rgs.domain.Student;
 
 import java.util.List;
 

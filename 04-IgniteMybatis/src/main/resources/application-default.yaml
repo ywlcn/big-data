@@ -7,28 +7,57 @@ spring:
   application:
     name: IgniteMybatis
 
+#  ignite:
+#    datasource:
+#      url: jdbc:ignite:thin://127.0.0.1/
+#      driver-class-name: org.apache.ignite.IgniteJdbcThinDriver
+#      type: com.zaxxer.hikari.HikariDataSource
+#      initialSize: 20
+#      minIdle: 20
+#      maxActive: 20
+#      maxWait: 60000
+#      timeBetweenEvictionRunsMillis: 60000
+#      validationQuery: SELECT 1
+#      testWhileIdle: true
+#      testOnBorrow: false
+#      testOnReturn: false
+#      poolPreparedStatements: true
+#      maxPoolPreparedStatementPerConnectionSize: 20
+#      filters: stat
+
   datasource:
     url: jdbc:ignite:thin://127.0.0.1:10800/
     driver-class-name: org.apache.ignite.IgniteJdbcThinDriver
-    init: true
-    schema: classpath:db/schema.sql
-    data: classpath:db/data.sql
+#    type: com.zaxxer.hikari.HikariDataSource
+#    initialSize: 20
+#    minIdle: 20
+#    maxActive: 20
+#    maxWait: 60000
+#    timeBetweenEvictionRunsMillis: 60000
+#    validationQuery: SELECT 1
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+#    maxPoolPreparedStatementPerConnectionSize: 20
+#    filters: stat
 
+#    init: true
+#    schema: classpath:db/schema.sql
+#    data: classpath:db/data.sql
 
 ignite-client:
   addresses: 127.0.0.1:10800 # this is mandatory property!
   timeout: 10000
   tcpNoDelay: false
 
-
-
 mybatis:
-  type-aliases-package: org.rgs.ignite.mybatis.mapper
+  type-aliases-package: org.rgs.mapper
   mapper-locations: classpath:mappers/*.xml
 
 
 
-logging:
-  level:
-    #web: DEBUG
-    org.springframework.security.web: DEBUG
+#logging:
+#  level:
+#    #web: DEBUG
+#    org.springframework.security.web: DEBUG

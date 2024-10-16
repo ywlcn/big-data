@@ -4,7 +4,7 @@ package com.rgs.ignite.hello.service;
 
 
 import com.rgs.ignite.hello.mapper.PersonMapper;
-import com.rgs.ignite.hello.model.Person;
+import org.rgs.domain.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

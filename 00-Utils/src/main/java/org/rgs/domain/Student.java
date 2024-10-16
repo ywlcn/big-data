@@ -1,4 +1,4 @@
-package org.rgs.ignite.deploy.domain;
+package org.rgs.domain;
 
 import lombok.Data;
 import org.apache.ignite.cache.query.annotations.QuerySqlField;

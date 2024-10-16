@@ -73,8 +73,6 @@ project(":00-Utils") {
 
 project(":01-ApacheIgnite") {
 
-
-
     dependencies {
         api project(":00-Utils")
 
@@ -164,6 +162,7 @@ project(":04-IgniteMybatis") {
         api project(":00-Utils")
 
         api "org.apache.ignite:ignite-spring-boot-thin-client-autoconfigure-ext:${igniteThinClientAutoconfigureVersion}"
+        //api "org.apache.ignite:ignite-spring-boot-autoconfigure-ext:1.0.0" // SpringBoot 2.2.2
 
         api "org.springframework:spring-tx"
         api "org.springframework:spring-context"

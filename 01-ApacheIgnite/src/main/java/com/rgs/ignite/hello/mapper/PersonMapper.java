@@ -1,8 +1,8 @@
 package com.rgs.ignite.hello.mapper;
 
 
-import com.rgs.ignite.hello.model.Person;
 import org.apache.ibatis.annotations.*;
+import org.rgs.domain.Person;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.rgs.ignite.deploy.service;
+package org.rgs.ignite.mybatis.service;
 
 import org.apache.ignite.services.Service;
 

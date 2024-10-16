@@ -1,6 +1,7 @@
-package org.rgs.ignite.deploy.dao;
+package org.rgs.ignite.mybatis.dao;
 
-import org.rgs.ignite.deploy.domain.Student;
+
+import org.rgs.domain.Student;
 
 import java.util.List;
 

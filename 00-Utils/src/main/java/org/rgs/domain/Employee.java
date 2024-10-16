@@ -1,4 +1,4 @@
-package org.rgs.utils.dto;
+package org.rgs.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,12 +8,10 @@ import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
-public class Person implements Serializable {
+public class Employee implements Serializable {
     @Serial
     private static final long serialVersionUID = 0L;
-
-    private int id;
-
-    private String name;
-
+    int id;
+    String name;
+    String email;
 }

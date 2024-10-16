@@ -1,66 +1,289 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
 
-       Copyright 2016-2022 the original author or authors.
+       http://www.apache.org/licenses/LICENSE-2.0
 
-       Licensed under the Apache License, Version 2.0 (the "License");
-       you may not use this file except in compliance with the License.
-       You may obtain a copy of the License at
-
-          https://www.apache.org/licenses/LICENSE-2.0
-
-       Unless required by applicable law or agreed to in writing, software
-       distributed under the License is distributed on an "AS IS" BASIS,
-       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-       See the License for the specific language governing permissions and
-       limitations under the License.
-
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
 -->
-<!--
-  Cache configured as a PARTITIONED client node that is a member of a cluster (i.e., data is stored at remote nodes).
-  Cluster configuration can be done by setting Discovery SPI below.
-  For more details, see https://apacheignite.readme.io/
--->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                            http://www.springframework.org/schema/beans/spring-beans.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://www.springframework.org/schema/beans              http://www.springframework.org/schema/beans/spring-beans.xsd              http://www.springframework.org/schema/util              http://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- Data source bean -->
+    <bean class="com.mysql.cj.jdbc.MysqlDataSource" id="mysqlDataSource">
+        <property name="URL" value="jdbc:mysql://localhost:3306/ignite-db"/>
+        <property name="user" value="root"/>
+        <property name="password" value="123456"/>
+    </bean>
+
+    <!-- Ignite Configuration -->
     <bean class="org.apache.ignite.configuration.IgniteConfiguration">
-        <!-- Set to true to enable distributed class loading for examples, default is false. -->
-        <property name="peerClassLoadingEnabled" value="true"/>
-        <!-- Enable client mode. -->
-        <property name="clientMode" value="true"/>
 
-        <!-- Explicitly configure TCP discovery SPI to provide list of initial nodes. -->
-        <property name="discoverySpi">
-            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
-                <property name="ipFinder">
-                    <!--
-                        Ignite provides several options for automatic discovery that can be used
-                        instead os static IP based discovery. For information on all options refer
-                        to our documentation: http://apacheignite.readme.io/docs/cluster-config
-                    -->
-                    <!-- Uncomment static IP finder to enable static-based discovery of initial nodes. -->
-                    <!--<bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">-->
-                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder">
-                        <property name="addresses">
-                            <list>
-                                <!-- In distributed environment, replace with actual host IP addresses. -->
-                                <value>127.0.0.1:47500..47509</value>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
+        <property name="serviceConfiguration">
+            <list>
+                <bean class="org.apache.ignite.services.ServiceConfiguration">
+                    <property name="name" value="cacheLoadService"/>
+                    <property name="maxPerNodeCount" value="1"/>
+                    <property name="totalCount" value="1"/>
+                    <property name="service">
+                        <bean class="org.rgs.utils.CacheLoadServiceImpl">
+                            <property name="cacheList">
+                                <list>
+                                    <value>studentCache</value>
+                                    <value>gradeCache</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="cacheConfiguration">
+            <list>
+                <!-- Configuration for studentCache -->
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="studentCache"/>
+
+                    <!-- <property name="nodeFilter">
+                        <bean class="com.nomura.components.filter.DataNodeFilter"/>
+                    </property> -->
+
+                    <property name="cacheMode" value="PARTITIONED"/>
+                    <property name="atomicityMode" value="TRANSACTIONAL"/>
+                    <property name="readThrough" value="true"/>
+                    <property name="writeThrough" value="true"/>
+
+                    <property name="cacheStoreFactory">
+                        <bean class="org.apache.ignite.cache.store.jdbc.CacheJdbcPojoStoreFactory">
+                            <property name="dataSourceBean" value="mysqlDataSource"/>
+                            <property name="dialect">
+                                <bean class="org.apache.ignite.cache.store.jdbc.dialect.MySQLDialect"/>
+                            </property>
+                            <property name="types">
+                                <list>
+                                    <ref bean="jdbcTypeStudent" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <!-- Configure query entities if you want to use SQL queries -->
+                    <property name="queryEntities">
+                        <list>
+                            <ref bean="queryEntityStudent" />
+                        </list>
+                    </property>
+                </bean>
+
+
+                <!-- Configuration for studentCache -->
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="gradeCache"/>
+
+                    <!-- <property name="nodeFilter">
+                        <bean class="com.nomura.components.filter.DataNodeFilter"/>
+                    </property> -->
+
+                    <property name="cacheMode" value="PARTITIONED"/>
+                    <property name="atomicityMode" value="TRANSACTIONAL"/>
+                    <property name="readThrough" value="true"/>
+                    <property name="writeThrough" value="true"/>
+
+                    <property name="cacheStoreFactory">
+                        <bean class="org.apache.ignite.cache.store.jdbc.CacheJdbcPojoStoreFactory">
+                            <property name="dataSourceBean" value="mysqlDataSource"/>
+                            <property name="dialect">
+                                <bean class="org.apache.ignite.cache.store.jdbc.dialect.MySQLDialect"/>
+                            </property>
+                            <property name="types">
+                                <list>
+                                    <ref bean="jdbcTypeGrade" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <!-- Configure query entities if you want to use SQL queries -->
+                    <property name="queryEntities">
+                        <list>
+                            <ref bean="queryEntityGrade" />
+                        </list>
+                    </property>
+                </bean>
+                <!-- Provide similar configurations for other caches/tables -->
+            </list>
         </property>
     </bean>
 
-    <bean id="templateCacheCfg" class="org.apache.ignite.configuration.CacheConfiguration">
-        <!-- Set a cache name. -->
-        <property name="name" value="myBatisCache"/>
-
-        <!-- Set cache mode to PARTITIONED. -->
-        <property name="cacheMode" value="PARTITIONED"/>
+    <bean id="jdbcTypeStudent" class="org.apache.ignite.cache.store.jdbc.JdbcType">
+        <property name="cacheName" value="studentCache"/>
+        <property name="keyType" value="java.lang.Integer"/>
+        <property name="valueType" value="org.rgs.domain.Student"/>
+        <!--Specify the schema if applicable -->
+        <!--property name="databaseSchema" value="MY_DB_SCHEMA"/-->
+        <property name="databaseTable" value="student"/>
+        <property name="keyFields">
+            <list>
+                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
+                    <constructor-arg>
+                        <util:constant static-field="java.sql.Types.INTEGER"/>
+                    </constructor-arg>
+                    <constructor-arg value="studId"/>
+                    <constructor-arg value="java.lang.Integer"/>
+                    <constructor-arg value="studId"/>
+                </bean>
+            </list>
+        </property>
+        <property name="valueFields">
+            <list>
+                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
+                    <constructor-arg>
+                        <util:constant static-field="java.sql.Types.INTEGER"/>
+                    </constructor-arg>
+                    <constructor-arg value="studId"/>
+                    <constructor-arg value="java.lang.Integer"/>
+                    <constructor-arg value="studId"/>
+                </bean>
+                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
+                    <constructor-arg>
+                        <util:constant static-field="java.sql.Types.VARCHAR"/>
+                    </constructor-arg>
+                    <constructor-arg value="name"/>
+                    <constructor-arg value="java.lang.String"/>
+                    <constructor-arg value="name"/>
+                </bean>
+                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
+                    <constructor-arg>
+                        <util:constant static-field="java.sql.Types.VARCHAR"/>
+                    </constructor-arg>
+                    <constructor-arg value="email"/>
+                    <constructor-arg value="java.lang.String"/>
+                    <constructor-arg value="email"/>
+                </bean>
+                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
+                    <constructor-arg>
+                        <util:constant static-field="java.sql.Types.TIMESTAMP"/>
+                    </constructor-arg>
+                    <constructor-arg value="dob"/>
+                    <constructor-arg value="java.util.Date"/>
+                    <constructor-arg value="dob"/>
+                </bean>
+            </list>
+        </property>
     </bean>
+
+    <bean id="queryEntityStudent" class="org.apache.ignite.cache.QueryEntity">
+        <property name="keyType" value="java.lang.Integer"/>
+        <property name="keyFieldName" value="studId"/>
+
+        <property name="valueType" value="org.rgs.domain.Student"/>
+
+        <property name="keyFields">
+            <list>
+                <value>studId</value>
+            </list>
+        </property>
+        <property name="fields">
+            <map>
+                <entry key="name" value="java.lang.String"/>
+                <entry key="studId" value="java.lang.Integer"/>
+                <entry key="email" value="java.lang.String"/>
+                <entry key="dob" value="java.util.Date"/>
+            </map>
+        </property>
+
+
+        <!-- Defining indexed fields.-->
+        <property name="indexes">
+            <list>
+                <!-- Single field (aka. column) index -->
+                <bean class="org.apache.ignite.cache.QueryIndex">
+                    <constructor-arg value="studId"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jdbcTypeGrade" class="org.apache.ignite.cache.store.jdbc.JdbcType">
+        <property name="cacheName" value="gradeCache"/>
+        <property name="valueType" value="org.rgs.domain.Grade"/>
+        <!--Specify the schema if applicable -->
+        <!--property name="databaseSchema" value="MY_DB_SCHEMA"/-->
+        <property name="databaseTable" value="grade"/>
+
+        <property name="keyType" value="java.lang.Integer"/>
+        <property name="keyFields">
+            <list>
+                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
+                    <constructor-arg>
+                        <util:constant static-field="java.sql.Types.INTEGER"/>
+                    </constructor-arg>
+                    <constructor-arg value="studId"/>
+                    <constructor-arg value="java.lang.Integer"/>
+                    <constructor-arg value="studId"/>
+                </bean>
+            </list>
+        </property>
+        <property name="valueFields">
+            <list>
+                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
+                    <constructor-arg>
+                        <util:constant static-field="java.sql.Types.INTEGER"/>
+                    </constructor-arg>
+                    <constructor-arg value="studId"/>
+                    <constructor-arg value="java.lang.Integer"/>
+                    <constructor-arg value="studId"/>
+                </bean>
+                <bean class="org.apache.ignite.cache.store.jdbc.JdbcTypeField">
+                    <constructor-arg>
+                        <util:constant static-field="java.sql.Types.DOUBLE"/>
+                    </constructor-arg>
+                    <constructor-arg value="grade"/>
+                    <constructor-arg value="java.lang.Double"/>
+                    <constructor-arg value="grade"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="queryEntityGrade" class="org.apache.ignite.cache.QueryEntity">
+        <property name="keyType" value="java.lang.Integer"/>
+        <property name="keyFieldName" value="studId"/>
+
+        <property name="valueType" value="org.rgs.domain.Grade"/>
+
+        <property name="keyFields">
+            <list>
+                <value>studId</value>
+            </list>
+        </property>
+        <property name="fields">
+            <map>
+                <entry key="grade" value="java.lang.Double"/>
+                <entry key="studId" value="java.lang.Integer"/>
+            </map>
+        </property>
+
+
+        <!-- Defining indexed fields.-->
+        <property name="indexes">
+            <list>
+                <!-- Single field (aka. column) index -->
+                <bean class="org.apache.ignite.cache.QueryIndex">
+                    <constructor-arg value="studId"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+
 
 </beans>

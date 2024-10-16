@@ -20,6 +20,9 @@ import java.util.stream.IntStream;
 //@Component
 public class IgniteUtil {
 
+    public static String SERVICE_NODE_TAG = "maintenance.service.node";
+
+
     @Autowired
     private Ignite ignite;
 

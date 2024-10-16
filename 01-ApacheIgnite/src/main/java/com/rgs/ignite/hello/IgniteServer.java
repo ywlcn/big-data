@@ -13,7 +13,7 @@ import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.logger.java.JavaLogger;
 import org.jetbrains.annotations.NotNull;
-import org.rgs.utils.dto.Employee;
+import org.rgs.domain.Employee;
 import org.apache.ignite.cache.query.*;
 
 import javax.cache.Cache;
@@ -21,7 +21,6 @@ import javax.cache.configuration.Factory;
 import javax.sql.DataSource;
 import java.sql.Types;
 import java.util.Iterator;
-import java.util.List;
 
 public class IgniteServer {
 

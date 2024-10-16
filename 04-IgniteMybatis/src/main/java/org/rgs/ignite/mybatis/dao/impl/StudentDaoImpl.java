@@ -1,8 +1,8 @@
-package org.rgs.ignite.deploy.dao.impl;
+package org.rgs.ignite.mybatis.dao.impl;
 
-import org.rgs.ignite.deploy.dao.StudentDao;
-import org.rgs.ignite.deploy.domain.Student;
-import org.rgs.ignite.deploy.mapper.StudentMapper;
+import org.rgs.domain.Student;
+import org.rgs.ignite.mybatis.dao.StudentDao;
+import org.rgs.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.rgs.ignite.hello.model;
+package org.rgs.domain;
 
 import lombok.Data;
 

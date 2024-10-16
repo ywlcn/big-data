@@ -1,11 +1,13 @@
-package org.rgs.ignite.deploy.controller;
+package org.rgs.ignite.mybatis.controller;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.cache.query.FieldsQueryCursor;
 import org.apache.ignite.cache.query.SqlFieldsQuery;
-import org.rgs.ignite.deploy.domain.Student;
-import org.rgs.ignite.deploy.mapper.StudentMapper;
+import org.rgs.domain.Person;
+import org.rgs.domain.Student;
+
+import org.rgs.mapper.StudentMapper;
 import org.rgs.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +27,19 @@ public class IgniteMybatisController {
     @Autowired
     private StudentMapper mapper;
 
+
 //    @Autowired
     private Ignite ignite;
+
+    @GetMapping()
+    public String init() {
+        long start = System.currentTimeMillis();
+        List<Student> students = mapper.findAllStudents();
+        String result = JsonUtils.toJson(students);
+        System.out.println(result);
+        return result;
+    }
+
 
     @GetMapping("/findStudentsById")
     public String findStudentsById(int studentId) {
@@ -49,7 +62,7 @@ public class IgniteMybatisController {
      */
     @GetMapping("/cpFindStudentsById")
     public String cpFindStudentsById(String studentId) {
-        IgniteCache<String, Student> cache = ignite.cache("student");
+        IgniteCache<String, Student> cache = ignite.cache("studentCache");
         SqlFieldsQuery sfq = new SqlFieldsQuery("select * from student where studid=?").setArgs(6).setReplicatedOnly(true);
         long start = System.currentTimeMillis();
         FieldsQueryCursor<List<?>> qc = cache.query(sfq);

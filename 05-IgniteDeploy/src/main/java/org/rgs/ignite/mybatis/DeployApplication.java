@@ -1,10 +1,10 @@
-package org.rgs.ignite.deploy;
+package org.rgs.ignite.mybatis;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.services.ServiceConfiguration;
-import org.rgs.ignite.deploy.service.GreetingService;
-import org.rgs.ignite.deploy.service.impl.GreetingServiceImpl;
+import org.rgs.ignite.mybatis.service.GreetingService;
+import org.rgs.ignite.mybatis.service.impl.GreetingServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

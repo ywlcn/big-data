@@ -1,7 +1,6 @@
 package com.rgs.ignite.hello.controller;
 
 import com.rgs.ignite.hello.mapper.PersonMapper;
-import com.rgs.ignite.hello.model.Person;
 import com.rgs.ignite.hello.service.PersonService;
 import com.rgs.ignite.hello.tasks.AddNumbersTask;
 import com.rgs.ignite.hello.tasks.AddNumbersTaskArg;
@@ -10,6 +9,7 @@ import org.apache.ignite.IgniteCache;
 import org.apache.ignite.client.IgniteClient;
 import org.apache.ignite.compute.ComputeTaskFuture;
 import org.apache.ignite.lang.IgniteRunnable;
+import org.rgs.domain.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

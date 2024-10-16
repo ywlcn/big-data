@@ -1,6 +1,6 @@
-package org.rgs.ignite.deploy.service.impl;
+package org.rgs.ignite.mybatis.service.impl;
 
-import org.rgs.ignite.deploy.service.GreetingService;
+import org.rgs.ignite.mybatis.service.GreetingService;
 
 public class GreetingServiceImpl implements GreetingService {
     @Override
