@@ -168,9 +168,11 @@ project(":04-IgniteMybatis") {
         api "org.springframework:spring-context"
 
         api "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisSpringBootStarter}"
-        api 'org.mybatis.caches:mybatis-ignite:1.1.1'
+        api "org.mybatis.caches:mybatis-ignite:1.1.1"
         api "com.h2database:h2:1.4.197"
 
+        api "org.apache.ignite:ignite-spring-tx-ext:${igniteSpringTxExtVersion}"
+        
     }
 }
 

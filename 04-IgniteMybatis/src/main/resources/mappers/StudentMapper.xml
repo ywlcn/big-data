@@ -5,7 +5,7 @@
 
 <mapper namespace="org.rgs.mapper.StudentMapper">
 
-<!--    <cache type="org.mybatis.caches.ignite.IgniteCacheAdapter" />-->
+    <!--    <cache type="org.mybatis.caches.ignite.IgniteCacheAdapter" />-->
 
     <resultMap type="org.rgs.domain.Student" id="StudentResult">
         <result property="studId" column="studId"/>
@@ -25,4 +25,13 @@
     <select id="findGradeByName" parameterType="java.lang.String" resultType="java.lang.Double">
         SELECT g.grade FROM "studentCache".student s, "gradeCache".grade g WHERE s.studId=g.studId and s.name= #{name}
     </select>
+
+    <select id="insertStudent" parameterType="org.rgs.domain.Student">
+        insert into "studentCache".student
+        ( studId, name , email , dob )
+        values
+        ( #{studId} , #{name} , #{email} , #{dob} )
+    </select>
+
+
 </mapper>
