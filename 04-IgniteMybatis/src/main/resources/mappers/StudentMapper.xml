@@ -15,14 +15,14 @@
     </resultMap>
 
     <select id="findAllStudents" resultMap="StudentResult">
-        select * from "igniteDbCache".student
+        select * from "studentCache".student
     </select>
 
     <select id="findStudentsById" parameterType="java.lang.Integer" resultMap="StudentResult">
-        SELECT * FROM "igniteDbCache".student WHERE studId = #{studentId}
+        SELECT * FROM "studentCache".student WHERE studId = #{studentId}
     </select>
 
     <select id="findGradeByName" parameterType="java.lang.String" resultType="java.lang.Double">
-        SELECT g.grade FROM "igniteDbCache".student s, "igniteDbCache".grade g WHERE s.studId=g.studId and s.name= #{name}
+        SELECT g.grade FROM "studentCache".student s, "gradeCache".grade g WHERE s.studId=g.studId and s.name= #{name}
     </select>
 </mapper>
