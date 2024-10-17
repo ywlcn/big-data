@@ -26,12 +26,18 @@
         SELECT g.grade FROM "studentCache".student s, "gradeCache".grade g WHERE s.studId=g.studId and s.name= #{name}
     </select>
 
-    <select id="insertStudent" parameterType="org.rgs.domain.Student">
+    <insert id="insertStudent" parameterType="org.rgs.domain.Student">
         insert into "studentCache".student
         ( studId, name , email , dob )
         values
         ( #{studId} , #{name} , #{email} , #{dob} )
-    </select>
+    </insert>
+
+    <update id="updateStudent" parameterType="org.rgs.domain.Student">
+        update "studentCache".student
+        set name = #{name}
+        where studId = #{studId}
+    </update>
 
 
 </mapper>

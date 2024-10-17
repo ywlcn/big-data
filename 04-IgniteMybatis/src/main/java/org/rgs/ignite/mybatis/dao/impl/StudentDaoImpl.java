@@ -14,13 +14,19 @@ public class StudentDaoImpl implements StudentDao {
     @Autowired
     private StudentMapper mapper;
 
-    public List<Student> findAllStudents(){
+    @Override
+    public List<Student> findAllStudents() {
         return mapper.findAllStudents();
     }
 
-    public void insertStudent(Student student){
+    @Override
+    public void insertStudent(Student student) {
         mapper.insertStudent(student);
     }
 
+    @Override
+    public void updateStudent(Student student) {
+        mapper.updateStudent(student);
+    }
 
 }

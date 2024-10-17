@@ -27,7 +27,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void doTransactionalError(Student student) {
-        dao.insertStudent(student);
+        //dao.insertStudent(student);
+        dao.updateStudent(student);
         throw new RuntimeException("ユーザーエラー");
     }
 

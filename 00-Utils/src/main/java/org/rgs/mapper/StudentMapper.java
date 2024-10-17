@@ -14,4 +14,8 @@ public interface StudentMapper {
 
     void insertStudent(Student student);
 
+
+    void updateStudent(Student student);
+
+
 }

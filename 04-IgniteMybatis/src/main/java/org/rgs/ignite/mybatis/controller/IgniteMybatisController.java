@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -38,7 +39,7 @@ public class IgniteMybatisController {
         Student student = new Student();
         student.setName("setName");
         student.setEmail("setEmail");
-        student.setStudId(1000);
+        student.setStudId(1);
 
         studentService.doTransactionalError(student);
 
