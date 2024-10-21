@@ -37,8 +37,8 @@ public class IgniteMybatisController {
     public String doError() {
 
         Student student = new Student();
-        student.setName("setName");
-        student.setEmail("setEmail");
+        student.setName("setName111");
+        student.setEmail("setEmail2222");
         student.setStudId(1);
 
         studentService.doTransactionalError(student);

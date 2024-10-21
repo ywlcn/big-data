@@ -25,9 +25,24 @@ spring:
 #      maxPoolPreparedStatementPerConnectionSize: 20
 #      filters: stat
 
+#  datasource:
+#    url: jdbc:ignite:thin://127.0.0.1:10800/
+#    driver-class-name: org.apache.ignite.IgniteJdbcThinDriver
+
+
   datasource:
-    url: jdbc:ignite:thin://127.0.0.1:10800/
-    driver-class-name: org.apache.ignite.IgniteJdbcThinDriver
+    url: jdbc:ignite:cfg://config/ignite-jdbc.xml
+    driver-class-name: org.apache.ignite.IgniteJdbcDriver
+    ignite:
+      jdbc:
+        transactionsAllowed: true
+    hikari:
+      connection-timeout: 60000                  # Default: 30000 (30 seconds)
+      connection-test-query: SELECT 1 FROM DUAL
+      minimum-idle: 50                           # Default: same as maximumPoolSize
+      maximum-pool-size: 500                     # Default: 10
+
+
 #    type: com.zaxxer.hikari.HikariDataSource
 #    initialSize: 20
 #    minIdle: 20
